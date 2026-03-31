@@ -5,38 +5,56 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org"></script>
     <style>
-        body { font-family: sans-serif; background: var(--tg-theme-bg-color); color: var(--tg-theme-text-color); padding: 15px; margin: 0; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-        .folder, .file { background: var(--tg-theme-secondary-bg-color); padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); }
+        :root { --main-color: #e74c3c; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
+               background: var(--tg-theme-bg-color); color: var(--tg-theme-text-color); margin: 0; padding: 15px; }
+        h3 { text-align: center; color: var(--main-color); margin-bottom: 20px; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+        .folder { background: var(--tg-theme-secondary-bg-color); padding: 15px 10px; border-radius: 15px; 
+                  text-align: center; cursor: pointer; border: 1px solid rgba(0,0,0,0.05); 
+                  box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.1s; }
+        .folder:active { transform: scale(0.95); }
+        .folder i { font-size: 24px; display: block; margin-bottom: 5px; }
         .hidden { display: none; }
-        .back-btn { margin-bottom: 15px; padding: 10px; background: #e74c3c; color: white; border-radius: 8px; display: inline-block; cursor: pointer; }
+        .back-btn { margin-bottom: 15px; padding: 8px 15px; background: var(--main-color); 
+                    color: white; border-radius: 10px; display: inline-block; cursor: pointer; font-size: 14px; }
+        .file-item { background: var(--tg-theme-secondary-bg-color); padding: 15px; border-radius: 10px; 
+                     margin-bottom: 8px; border-left: 5px solid var(--main-color); cursor: pointer; }
     </style>
 </head>
 <body>
     <div id="folder-screen">
-        <h3>📂 Категории (12 папок)</h3>
+        <h3>🚒 База знаний СПСЧ</h3>
         <div class="grid">
+            <div class="folder" onclick="showFiles('rschs')">📢 РСЧС</div>
             <div class="folder" onclick="showFiles('gdzs')">💨 ГДЗС</div>
-            <div class="folder" onclick="showFiles('tactics')">🚒 Тактика</div>
-            <div class="folder" onclick="showFiles('tech')">🛠 Техника</div>
-            <!-- Добавь остальные 9 папок по аналогии -->
+            <div class="folder" onclick="showFiles('tactics')">🔥 ТАКТИКА</div>
+            <div class="folder" onclick="showFiles('tech')">🚒 ТЕХНИКА</div>
+            <div class="folder" onclick="showFiles('prof')">🎓 Проф. подготовка</div>
+            <div class="folder" onclick="showFiles('water')">💧 Водоснабжение</div>
+            <div class="folder" onclick="showFiles('docs')">📄 Документация</div>
+            <div class="folder" onclick="showFiles('norm')">⚖️ Нормативная база</div>
+            <div class="folder" onclick="showFiles('ptv')">🧯 ПТВ</div>
+            <div class="folder" onclick="showFiles('labor')">🛡 Охрана труда</div>
+            <div class="folder" onclick="showFiles('graph')">📅 График смен</div>
         </div>
     </div>
 
     <div id="file-screen" class="hidden">
-        <div class="back-btn" onclick="showFolders()">← Назад</div>
-        <h3 id="category-title">Файлы</h3>
-        <div id="file-list" class="grid"></div>
+        <div class="back-btn" onclick="showFolders()">← Назад к папкам</div>
+        <h3 id="category-title"></h3>
+        <div id="file-list"></div>
     </div>
 
     <script>
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        const data = {
-            'gdzs': [{n: 'Регламент ГДЗС', id: 'doc_1'}, {n: 'Видео: Маска', id: 'vid_1'}],
-            'tactics': [{n: 'Боевой устав', id: 'doc_2'}],
-            'tech': [{n: 'ТТХ АЦ-40', id: 'doc_3'}]
+        // ТУТ БУДУТ ТВОИ ФАЙЛЫ (пока для примера добавил в ГДЗС)
+        const content = {
+            'gdzs': [{n: 'Регламент ГДЗС', id: 'gdzs_1'}, {n: 'Проверка №1', id: 'gdzs_2'}],
+            'tactics': [{n: 'Боевой устав', id: 'tact_1'}],
+            'rschs': [], 'tech': [], 'prof': [], 'water': [], 'docs': [], 'norm': [], 'ptv': [], 'labor': [], 'graph': []
         };
 
         function showFiles(category) {
@@ -46,9 +64,15 @@
             
             let list = document.getElementById('file-list');
             list.innerHTML = '';
-            data[category].forEach(file => {
+            
+            if (content[category].length === 0) {
+                list.innerHTML = '<p style="text-align:center">Папка пока пуста</p>';
+                return;
+            }
+
+            content[category].forEach(file => {
                 let div = document.createElement('div');
-                div.className = 'file';
+                div.className = 'file-item';
                 div.innerText = file.n;
                 div.onclick = () => tg.sendData(file.id);
                 list.appendChild(div);
