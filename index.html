@@ -3,29 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Mini App</title>
-    <!-- Подключаем скрипт Telegram -->
     <script src="https://telegram.org"></script>
     <style>
-        body { background-color: var(--tg-theme-bg-color); color: var(--tg-theme-text-color); font-family: sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; margin: 0; }
-        button { background-color: var(--tg-theme-button-color); color: var(--tg-theme-button-text-color); border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer; font-size: 18px; }
+        body { font-family: sans-serif; background: var(--tg-theme-bg-color); color: var(--tg-theme-text-color); padding: 15px; margin: 0; }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        .folder, .file { background: var(--tg-theme-secondary-bg-color); padding: 20px; border-radius: 12px; text-align: center; cursor: pointer; border: 1px solid rgba(0,0,0,0.1); }
+        .hidden { display: none; }
+        .back-btn { margin-bottom: 15px; padding: 10px; background: #e74c3c; color: white; border-radius: 8px; display: inline-block; cursor: pointer; }
     </style>
 </head>
 <body>
-    <h1>Привет, <span id="username"></span>!</h1>
-    <button id="main-btn">Закрыть приложение</button>
+    <div id="folder-screen">
+        <h3>📂 Категории (12 папок)</h3>
+        <div class="grid">
+            <div class="folder" onclick="showFiles('gdzs')">💨 ГДЗС</div>
+            <div class="folder" onclick="showFiles('tactics')">🚒 Тактика</div>
+            <div class="folder" onclick="showFiles('tech')">🛠 Техника</div>
+            <!-- Добавь остальные 9 папок по аналогии -->
+        </div>
+    </div>
+
+    <div id="file-screen" class="hidden">
+        <div class="back-btn" onclick="showFolders()">← Назад</div>
+        <h3 id="category-title">Файлы</h3>
+        <div id="file-list" class="grid"></div>
+    </div>
 
     <script>
-        let tg = window.Telegram.WebApp; // Инициализация
-        tg.expand(); // Развернуть на весь экран
+        let tg = window.Telegram.WebApp;
+        tg.expand();
 
-        // Берем имя пользователя прямо из Telegram
-        document.getElementById("username").innerText = tg.initDataUnsafe.user ? tg.initDataUnsafe.user.first_name : "Гость";
+        const data = {
+            'gdzs': [{n: 'Регламент ГДЗС', id: 'doc_1'}, {n: 'Видео: Маска', id: 'vid_1'}],
+            'tactics': [{n: 'Боевой устав', id: 'doc_2'}],
+            'tech': [{n: 'ТТХ АЦ-40', id: 'doc_3'}]
+        };
 
-        // Обработка клика
-        document.getElementById("main-btn").addEventListener("click", function(){
-            tg.close(); // Закрыть Mini App
-        });
+        function showFiles(category) {
+            document.getElementById('folder-screen').classList.add('hidden');
+            document.getElementById('file-screen').classList.remove('hidden');
+            document.getElementById('category-title').innerText = category.toUpperCase();
+            
+            let list = document.getElementById('file-list');
+            list.innerHTML = '';
+            data[category].forEach(file => {
+                let div = document.createElement('div');
+                div.className = 'file';
+                div.innerText = file.n;
+                div.onclick = () => tg.sendData(file.id);
+                list.appendChild(div);
+            });
+        }
+
+        function showFolders() {
+            document.getElementById('folder-screen').classList.remove('hidden');
+            document.getElementById('file-screen').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
