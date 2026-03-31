@@ -5,44 +5,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org"></script>
     <style>
-        :root { --main-color: #e74c3c; }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; 
-               background: var(--tg-theme-bg-color); color: var(--tg-theme-text-color); margin: 0; padding: 15px; }
-        h3 { text-align: center; color: var(--main-color); margin-bottom: 20px; }
-        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-        .folder { background: var(--tg-theme-secondary-bg-color); padding: 15px 10px; border-radius: 15px; 
-                  text-align: center; cursor: pointer; border: 1px solid rgba(0,0,0,0.05); 
-                  box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.1s; }
-        .folder:active { transform: scale(0.95); }
-        .folder i { font-size: 24px; display: block; margin-bottom: 5px; }
+        /* Основной стиль: Светлая тема */
+        body { 
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+            background-color: #f8f9fa; /* Светло-серый фон */
+            color: #333; 
+            margin: 0; 
+            padding: 15px; 
+        }
+
+        h3 { 
+            text-align: center; 
+            color: #d32f2f; /* Пожарный красный */
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Сетка в 2 колонки */
+        .grid { 
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 12px; 
+        }
+
+        /* Стиль кнопки-папки */
+        .folder { 
+            background: #ffffff; /* Белый фон кнопок */
+            padding: 20px 10px; 
+            border-radius: 15px; 
+            text-align: center; 
+            cursor: pointer; 
+            border: none;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Тень для объема */
+            transition: all 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 13px;
+            color: #2c3e50;
+        }
+
+        /* Эффект при нажатии */
+        .folder:active { 
+            transform: translateY(2px); 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            background-color: #f1f1f1;
+        }
+
+        .folder-icon { 
+            font-size: 28px; 
+            margin-bottom: 8px; 
+        }
+
+        /* Кнопка "Назад" */
+        .back-btn { 
+            margin-bottom: 20px; 
+            padding: 10px 20px; 
+            background: #d32f2f; 
+            color: white; 
+            border-radius: 10px; 
+            text-align: center;
+            font-weight: bold;
+            cursor: pointer;
+            width: fit-content;
+        }
+
         .hidden { display: none; }
-        .back-btn { margin-bottom: 15px; padding: 8px 15px; background: var(--main-color); 
-                    color: white; border-radius: 10px; display: inline-block; cursor: pointer; font-size: 14px; }
-        .file-item { background: var(--tg-theme-secondary-bg-color); padding: 15px; border-radius: 10px; 
-                     margin-bottom: 8px; border-left: 5px solid var(--main-color); cursor: pointer; }
+
+        /* Элементы списка файлов */
+        .file-item { 
+            background: #ffffff; 
+            padding: 18px; 
+            border-radius: 12px; 
+            margin-bottom: 10px; 
+            border-left: 6px solid #d32f2f; 
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            font-weight: 500;
+        }
     </style>
 </head>
 <body>
+
     <div id="folder-screen">
-        <h3>🚒 База знаний СПСЧ</h3>
+        <h3>🚒 БАЗА ЗНАНИЙ СПСЧ</h3>
         <div class="grid">
-            <div class="folder" onclick="showFiles('rschs')">📢 РСЧС</div>
-            <div class="folder" onclick="showFiles('gdzs')">💨 ГДЗС</div>
-            <div class="folder" onclick="showFiles('tactics')">🔥 ТАКТИКА</div>
-            <div class="folder" onclick="showFiles('tech')">🚒 ТЕХНИКА</div>
-            <div class="folder" onclick="showFiles('prof')">🎓 Проф. подготовка</div>
-            <div class="folder" onclick="showFiles('water')">💧 Водоснабжение</div>
-            <div class="folder" onclick="showFiles('docs')">📄 Документация</div>
-            <div class="folder" onclick="showFiles('norm')">⚖️ Нормативная база</div>
-            <div class="folder" onclick="showFiles('ptv')">🧯 ПТВ</div>
-            <div class="folder" onclick="showFiles('labor')">🛡 Охрана труда</div>
-            <div class="folder" onclick="showFiles('graph')">📅 График смен</div>
+            <div class="folder" onclick="showFiles('rschs')"><span class="folder-icon">📢</span>РСЧС</div>
+            <div class="folder" onclick="showFiles('gdzs')"><span class="folder-icon">💨</span>ГДЗС</div>
+            <div class="folder" onclick="showFiles('tactics')"><span class="folder-icon">🔥</span>ТАКТИКА</div>
+            <div class="folder" onclick="showFiles('tech')"><span class="folder-icon">🚒</span>ТЕХНИКА</div>
+            <div class="folder" onclick="showFiles('prof')"><span class="folder-icon">🎓</span>ПРОФ. ПОДГОТОВКА</div>
+            <div class="folder" onclick="showFiles('water')"><span class="folder-icon">💧</span>ВОДОСНАБЖЕНИЕ</div>
+            <div class="folder" onclick="showFiles('docs')"><span class="folder-icon">📄</span>ДОКУМЕНТАЦИЯ</div>
+            <div class="folder" onclick="showFiles('norm')"><span class="folder-icon">⚖️</span>НОРМ. БАЗА</div>
+            <div class="folder" onclick="showFiles('ptv')"><span class="folder-icon">🧯</span>ПТВ</div>
+            <div class="folder" onclick="showFiles('labor')"><span class="folder-icon">🛡</span>ОХРАНА ТРУДА</div>
+            <div class="folder" onclick="showFiles('graph')"><span class="folder-icon">📅</span>ГРАФИК СМЕН</div>
         </div>
     </div>
 
     <div id="file-screen" class="hidden">
-        <div class="back-btn" onclick="showFolders()">← Назад к папкам</div>
-        <h3 id="category-title"></h3>
+        <div class="back-btn" onclick="showFolders()">← НАЗАД</div>
+        <h3 id="category-title" style="text-align: left;"></h3>
         <div id="file-list"></div>
     </div>
 
@@ -50,9 +117,9 @@
         let tg = window.Telegram.WebApp;
         tg.expand();
 
-        // ТУТ БУДУТ ТВОИ ФАЙЛЫ (пока для примера добавил в ГДЗС)
+        // База данных твоих файлов
         const content = {
-            'gdzs': [{n: 'Регламент ГДЗС', id: 'gdzs_1'}, {n: 'Проверка №1', id: 'gdzs_2'}],
+            'gdzs': [{n: 'Регламент ГДЗС', id: 'gdzs_1'}, {n: 'Проверка аппарата', id: 'gdzs_2'}],
             'tactics': [{n: 'Боевой устав', id: 'tact_1'}],
             'rschs': [], 'tech': [], 'prof': [], 'water': [], 'docs': [], 'norm': [], 'ptv': [], 'labor': [], 'graph': []
         };
@@ -66,7 +133,7 @@
             list.innerHTML = '';
             
             if (content[category].length === 0) {
-                list.innerHTML = '<p style="text-align:center">Папка пока пуста</p>';
+                list.innerHTML = '<p style="text-align:center; color:#999;">В этой папке пока нет файлов</p>';
                 return;
             }
 
@@ -74,7 +141,10 @@
                 let div = document.createElement('div');
                 div.className = 'file-item';
                 div.innerText = file.n;
-                div.onclick = () => tg.sendData(file.id);
+                div.onclick = () => {
+                    tg.sendData(file.id); // Отправляем сигнал боту
+                    tg.close(); // Закрываем приложение, чтобы увидеть файл в чате
+                };
                 list.appendChild(div);
             });
         }
