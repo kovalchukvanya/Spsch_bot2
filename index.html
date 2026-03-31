@@ -4,89 +4,76 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://telegram.org"></script>
-    <style>
-        /* Основной стиль: Светлая тема */
-        body { 
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
-            background-color: #f8f9fa; /* Светло-серый фон */
-            color: #333; 
-            margin: 0; 
-            padding: 15px; 
-        }
+   <style>
+    /* ЖЕСТКАЯ СВЕТЛАЯ ТЕМА */
+    html, body { 
+        background-color: #ffffff !important; /* Чисто белый фон */
+        color: #000000 !important; /* Черный текст */
+        margin: 0; 
+        padding: 15px; 
+        height: 100vh;
+    }
 
-        h3 { 
-            text-align: center; 
-            color: #d32f2f; /* Пожарный красный */
-            font-size: 20px;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
+    h3 { 
+        text-align: center; 
+        color: #d32f2f !important; 
+        font-size: 20px;
+        margin-bottom: 20px;
+        font-weight: bold;
+    }
 
-        /* Сетка в 2 колонки */
-        .grid { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
-            gap: 12px; 
-        }
+    /* Сетка в 2 колонки */
+    .grid { 
+        display: grid; 
+        grid-template-columns: 1fr 1fr; 
+        gap: 10px; 
+    }
 
-        /* Стиль кнопки-папки */
-        .folder { 
-            background: #ffffff; /* Белый фон кнопок */
-            padding: 20px 10px; 
-            border-radius: 15px; 
-            text-align: center; 
-            cursor: pointer; 
-            border: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* Тень для объема */
-            transition: all 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            font-weight: 600;
-            font-size: 13px;
-            color: #2c3e50;
-        }
+    /* Кнопка-папка */
+    .folder { 
+        background-color: #ffffff !important; 
+        padding: 20px 5px; 
+        border-radius: 12px; 
+        text-align: center; 
+        box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important; /* Тень, чтобы кнопка выделялась */
+        border: 1px solid #eeeeee !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+        color: #333333 !important;
+    }
 
-        /* Эффект при нажатии */
-        .folder:active { 
-            transform: translateY(2px); 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-            background-color: #f1f1f1;
-        }
+    .folder-icon { 
+        font-size: 32px; 
+        margin-bottom: 8px; 
+    }
 
-        .folder-icon { 
-            font-size: 28px; 
-            margin-bottom: 8px; 
-        }
+    .back-btn { 
+        margin-bottom: 20px; 
+        padding: 12px 20px; 
+        background: #d32f2f !important; 
+        color: #ffffff !important; 
+        border-radius: 10px; 
+        font-weight: bold;
+        display: inline-block;
+    }
 
-        /* Кнопка "Назад" */
-        .back-btn { 
-            margin-bottom: 20px; 
-            padding: 10px 20px; 
-            background: #d32f2f; 
-            color: white; 
-            border-radius: 10px; 
-            text-align: center;
-            font-weight: bold;
-            cursor: pointer;
-            width: fit-content;
-        }
+    .hidden { display: none; }
 
-        .hidden { display: none; }
-
-        /* Элементы списка файлов */
-        .file-item { 
-            background: #ffffff; 
-            padding: 18px; 
-            border-radius: 12px; 
-            margin-bottom: 10px; 
-            border-left: 6px solid #d32f2f; 
-            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-            font-weight: 500;
-        }
-    </style>
+    .file-item { 
+        background: #ffffff !important; 
+        color: #333333 !important;
+        padding: 15px; 
+        border-radius: 10px; 
+        margin-bottom: 10px; 
+        border-left: 6px solid #d32f2f !important; 
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1) !important;
+        font-weight: bold;
+    }
+</style>
 </head>
 <body>
 
